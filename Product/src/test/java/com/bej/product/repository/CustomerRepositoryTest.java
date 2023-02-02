@@ -4,7 +4,7 @@
  * Created with : IntelliJ IDEA Community Edition
  */
 
-package com.bej.product;
+package com.bej.product.repository;
 
 import com.bej.product.domain.Customer;
 import com.bej.product.domain.Product;
@@ -62,8 +62,8 @@ public class CustomerRepositoryTest {
         customerRepository.insert(customer1);
 
         List<Customer> list = customerRepository.findAll();
-        assertEquals(5, list.size());
-        assertEquals("Ben", list.get(4).getCustomerName());
+        assertEquals(2, list.size());
+        assertEquals("Ben", list.get(1).getCustomerName());
     }
 
     @Test

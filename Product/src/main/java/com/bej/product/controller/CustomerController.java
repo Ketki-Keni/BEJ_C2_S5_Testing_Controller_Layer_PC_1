@@ -7,6 +7,8 @@
 package com.bej.product.controller;
 
 import com.bej.product.domain.Customer;
+import com.bej.product.exception.CustomerAlreadyExistsException;
+import com.bej.product.exception.ProductNotFoundException;
 import com.bej.product.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,7 @@ public class CustomerController {
 
     //Uri : http://localhost:8083/api/v1/customer : Method : Post
     @PostMapping("/customer")
-    public ResponseEntity<Customer> insertCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> insertCustomer(@RequestBody Customer customer) throws CustomerAlreadyExistsException {
         Customer customer1 = customerService.saveCustomer(customer);
         return new ResponseEntity<Customer>(customer, HttpStatus.OK);
     }
@@ -46,7 +48,7 @@ public class CustomerController {
 
     ////Uri : http://localhost:8083/api/v1/CustomerByProduct/Samsung Phone : Method : Get
     @GetMapping("/CustomerByProduct/{customerProduct}")
-    public ResponseEntity<?> getAllCustomerByProduct(@PathVariable String customerProduct){
+    public ResponseEntity<?> getAllCustomerByProduct(@PathVariable String customerProduct) throws ProductNotFoundException {
         List<Customer> customers=customerService.getAllCustomerByProduct(customerProduct);
         return new ResponseEntity<List<Customer>>(customers, HttpStatus.OK);
     }

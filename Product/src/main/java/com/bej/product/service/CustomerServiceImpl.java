@@ -7,6 +7,8 @@
 package com.bej.product.service;
 
 import com.bej.product.domain.Customer;
+import com.bej.product.exception.CustomerAlreadyExistsException;
+import com.bej.product.exception.ProductNotFoundException;
 import com.bej.product.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer saveCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer) throws CustomerAlreadyExistsException {
+        if(customerRepository.findById(customer.getCustomerId()).isPresent()){
+            throw new CustomerAlreadyExistsException();
+        }
         return customerRepository.save(customer);
     }
 
@@ -32,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAllCustomerByProduct(String productName) {
+    public List<Customer> getAllCustomerByProduct(String productName) throws ProductNotFoundException {
         return customerRepository.findAllCustomerByCustomerProduct(productName);
     }
 }
